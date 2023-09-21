@@ -1,24 +1,32 @@
-﻿namespace MAUISounds
+﻿using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Views;
+
+namespace MAUISounds
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
 
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        void OnPlayPauseButtonClicked(object sender, EventArgs args)
         {
-            count++;
+            if (mediaElement.CurrentState == MediaElementState.Stopped ||
+                mediaElement.CurrentState == MediaElementState.Paused)
+            {
+                mediaElement.Play();
+            }
+            else if (mediaElement.CurrentState == MediaElementState.Playing)
+            {
+                mediaElement.Pause();
+            }
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        void OnStopButtonClicked(object sender, EventArgs args)
+        {
+            mediaElement.Stop();
         }
     }
 }
